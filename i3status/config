@@ -1,0 +1,106 @@
+# i3status configuration file.
+# see "man i3status" for documentation.
+
+# It is important that this file is edited as UTF-8.
+# The following line should contain a sharp s:
+# ß
+# If the above line is not correctly displayed, fix your editor first!
+
+general {
+        colors = true
+        interval = 1
+        #output_format = "net-speed: %output%"
+}
+
+# order += "read_file BRIGHTNESS"
+order += "volume master"
+# order += "ipv6"
+order += "wireless _first_"
+order += "battery 0"
+# order += "ethernet _first_"
+# order += "battery all"
+#order += "disk /"
+#order += "load"
+#order += "memory"
+order += "tztime local"
+order += "cpu_usage"
+# order += "net-speed"
+
+
+volume master {
+	format = "VOL %volume"
+	format_muted = "muted"
+	device = "default"
+	mixer = "Master"
+	mixer_idx = 0
+}
+
+read_file BRIGHTNESS {
+	format = "BRI %content%"
+	path = "/home/donib/.config/brightness"
+	max_characters = 5
+}
+
+cpu_usage {
+        format= "CPU %usage <%cpu0 %cpu1>"
+        max_threshold= 75
+}
+wireless _first_ {
+        format_up = "W: (%quality at %essid)"
+        format_down = "W: down"
+}
+
+ethernet _first_ {
+        format_up = "E: %ip (%speed)"
+        format_down = "E: down"
+}
+
+battery all {
+        	format = "%status %percentage %remaining"
+	        integer_battery_capacity = true
+	        threshold_type = "percentage"
+	        low_threshold = "15"
+	        # f58e nf-mdi-battery_plus; f58b nf-mdi-battery_minus; f578 nf-mdi-battery
+	        status_chr = "CHR"
+	        status_bat = "BAT"
+	        status_full = "FULL"
+}
+
+battery 0 {
+    format = "%status %percentage %remaining"
+    format_down = ""
+    last_full_capacity = true
+    integer_battery_capacity = true
+    low_threshold = 15
+    threshold_type = percentage
+    hide_seconds = true
+    status_chr = "CHR"
+    status_bat = "BAT"
+    status_unk = "UNK"
+    status_full = "FULL"
+}
+
+#net-speed {
+#	    format_up = "↑ %speeds:tx% |"
+#	    format_down = "↓ %speeds:rx% |"
+#	    divisor = 1024
+#	    command = "bash ~/.config/i3status/scripts/net-speed.sh"
+#}
+
+disk "/" {
+        format = "%avail"
+}
+
+load {
+        format = "%1min"
+}
+
+memory {
+        format = "%used | %available"
+        threshold_degraded = "1G"
+        format_degraded = "MEMORY < %available"
+}
+
+tztime local {
+        format = "%Y-%m-%d %H:%M:%S"
+}
